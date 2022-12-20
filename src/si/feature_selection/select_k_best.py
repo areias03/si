@@ -1,8 +1,8 @@
 import numpy as np
 import importlib
 
-from data.dataset import Dataset
-from statistic.f_classification import f_classification
+from si.data.dataset import Dataset
+from si.statistic.f_classification import f_classification
 from typing import Callable
 
 class SelectKBest:

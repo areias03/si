@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import stats
 
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
 def f_classification(dataset: Dataset):
     """

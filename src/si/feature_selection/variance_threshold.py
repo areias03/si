@@ -1,4 +1,4 @@
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 import numpy as np
 import pandas as pd
 
