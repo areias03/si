@@ -1,7 +1,3 @@
-import sys
-sys.path.append('.')
-sys.path.append("/Users/alexandre/Documents/Mestrado/2º\ Ano/SIB/si/src/si/data")
-
 import numpy as np
 from scipy import stats
 
@@ -19,7 +15,7 @@ def f_classification(dataset: Dataset):
         F (np.array): F scores.
         p (np.array): p-values.
     """
-    classes = Dataset.get_classes()
+    classes = dataset.get_classes()
     groups = [dataset.X[dataset.y == c] for c in classes] 
     F, p = stats.f_oneway(*groups)
     return F, p

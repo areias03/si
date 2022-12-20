@@ -1,12 +1,8 @@
-import sys
-sys.path.append('.')
-sys.path.append("/Users/alexandre/Documents/Mestrado/2º\ Ano/SIB/si/src/si/data")
-sys.path.append("/Users/alexandre/Documents/Mestrado/2º\ Ano/SIB/si/src/si/statistics")
-
 import numpy as np
+import importlib
 
 from data.dataset import Dataset
-from statistics import f_classification
+from statistic.f_classification import f_classification
 from typing import Callable
 
 class SelectKBest:
@@ -24,7 +20,7 @@ class SelectKBest:
 
     def transform(self, dataset: Dataset) -> Dataset:
         
-        idxs = np.argsort(self.F)[-self.K:]
+        idxs = np.argsort(self.F)[-self.k:]
         features = np.array(dataset.features)[idxs]
         return Dataset(X=dataset.X[:, idxs], y=dataset.y, features=list(features), label=dataset.label)
 
@@ -32,4 +28,14 @@ class SelectKBest:
         self.fit(dataset)
         return self.transform(dataset)
 
-
+if __name__ == "__main__":
+    a = SelectKBest(k = 3)
+    dataset = Dataset(X=np.array([[0, 2, 0, 3],
+                                  [0, 1, 4, 3],
+                                  [0, 1, 1, 3]]),
+                      y=np.array([0, 1, 0]),
+                      features=["f1", "f2", "f3", "f4"],
+                      label="y")
+    a.fit(dataset)
+    b = a.transform(dataset)
+    print(b.features) 
