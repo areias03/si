@@ -93,13 +93,21 @@ class Dataset:
         """
         return pd.DataFrame(self.X).dropna(axis=0).reset_index(drop=True)
 
-    def fillna(self,value: int):
+
+    def fillna(self, value: int):
         """
         Fills all NaN values with the given value
+
+        Args:
+            value (int): Given value to replace null values with
         """
-        return pd.DataFrame(self.X).fillna(value)
-
-
+        
+        if self.X is None:
+            return
+        
+        self.X = np.where(pd.isnull(self.X), value, self.X)
+        
+        return Dataset(self.X, self.y, self.features, self.label)
 
 
 if __name__ == '__main__':

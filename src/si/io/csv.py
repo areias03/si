@@ -1,15 +1,10 @@
-import sys
-sys.path.append('.')
-sys.path.append("/Users/alexandre/Documents/Mestrado/2º\ Ano/SIB/si/src/si/data")
-
-
 from typing import Optional
 import pandas as pd
 import numpy as np
 
-from data.dataset import Dataset
+from si.data.dataset import Dataset
 
-def read_csv(filename,sep,features,labels):
+def read_csv(filename: str,sep: str = ',',features: Optional[bool] = True,label: Optional[bool] = False) -> Dataset:
     """
     Reads a csv file and returns a Dataset object of that file.
     Args:
@@ -20,26 +15,23 @@ def read_csv(filename,sep,features,labels):
     Returns:
         Dataset: The dataset object
     """
-    data = pd.read_csv(filename, sep)
-    if features and label: 
-        y = data.iloc[:, -1] 
-        label = data.columns[-1]
-        data = data.iloc[:, :-1]
-        features = data.columns
+    dataframe = pd.read_csv(filename, sep)
 
-    elif features and label is False:  
-        features = data.columns
+    if features:
+        features_dataframe = dataframe.iloc[:, :-1].to_numpy()
+        features_names = dataframe.columns[:-1].tolist()
+    else:
+        features_dataframe = None
+        features_names = None
+
+    if label:
+        y = dataframe.iloc[:, -1].to_numpy()
+        label_name = dataframe.columns[-1]
+    else:
         y = None
+        label_name = None
 
-    elif features is False and label:  
-        y = data.iloc[:, -1]
-        label = data.columns[-1]
-        data = data.iloc[:, :-1]
-
-    else: 
-        y = None
-
-    return Dataset(data, y, features, label)
+    return Dataset(features_dataframe, y, features_names, label_name)
 
 
 def write_csv(filename, dataset,sep,features,label):
